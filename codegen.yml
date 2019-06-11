@@ -1,0 +1,15 @@
+overwrite: true
+schema: ./src/generated/schema.graphql
+documents: '**/*.graphql'
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      typesPrefix: I
+      withHOC: true
+      withHooks: true
+      withComponent: true
+      hooksImportFrom: react-apollo-hooks
