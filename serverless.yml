@@ -13,7 +13,7 @@ provider:
   name: aws
   runtime: nodejs10.x
   stage: ${opt:stage, 'dev'}
-  region: ap-east-1
+  region: us-east-1
 
 custom:
   #######################################
