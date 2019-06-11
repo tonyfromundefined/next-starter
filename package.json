@@ -12,8 +12,8 @@
     "build": "next build ./src",
     "postbuild": "parallel-webpack",
     "deploy:dev": "sls deploy --stage dev",
-    "deploy:stage": "sls deploy --stage stage",
-    "deploy:prod": "sls deploy --stage prod",
+    "deploy:stage": "NODE_ENV=production sls deploy --stage stage",
+    "deploy:prod": "NODE_ENV=production sls deploy --stage prod",
     "lint": "tslint --project '.'",
     "pregenerate": "get-graphql-schema `npx dotenv -e .env.development -p NEXT_APP_GRAPHQL_ENDPOINT` > ./src/generated/schema.graphql",
     "generate": "graphql-codegen --config codegen.yml"
@@ -69,6 +69,7 @@
     "parallel-webpack": "^2.4.0",
     "serverless": "^1.44.1",
     "serverless-apigw-binary": "^0.4.4",
+    "serverless-dotenv-plugin": "^2.1.1",
     "serverless-s3-sync": "^1.8.0",
     "tslint": "^5.17.0",
     "tslint-react": "^4.0.0",

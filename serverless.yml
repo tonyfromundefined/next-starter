@@ -3,6 +3,7 @@ service: next-starter
 plugins:
   - serverless-s3-sync
   - serverless-apigw-binary
+  - serverless-dotenv-plugin
 
 package:
   individually: true
