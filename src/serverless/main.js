@@ -7,7 +7,6 @@ const nocache = require('nocache')
 const api = require('../api')
 
 const index = require('../../dist/serverless/pages/index')
-
 const error = require('../../dist/serverless/pages/_error')
 
 const BINARY_MIME_TYPES = [
