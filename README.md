@@ -1,6 +1,9 @@
 # Next.js Starter🚀 using GraphQL, MobX
 Next.js based Production Ready Starter. GraphQL and MobX based. [Erion Classroom](https://classroom.erion.io) using it on the client. Saving your login status was configured using cookies. (`Secure`,` HttpOnly`)
 
+## Warning
+Untrack the `.env.development` and the `.env.production` before commit
+
 ## Pre-Installed
 The following libraries / Framework are preinstalled.
 
@@ -110,6 +113,9 @@ const Title = styled.h3`
 
 # Next.js Starter🚀 using GraphQL, MobX (Korean 🇰🇷)
 Next.js 기반의 Production Ready Starter입니다. GraphQL, MobX 기반으로 구성되었습니다. [Erion Classroom](https://classroom.erion.io) 클라이언트에서 사용하고 있습니다. 로그인 상태 저장은 Cookie를 사용하여 구성되었습니다. (`Secure`, `HttpOnly`)
+
+## Warning
+커밋 전에 `.env.development`와 `.env.production`를 Untrack 하세요
 
 ## Pre-Installed
 아래의 라이브러리/Framework이 사전 설치되어 있습니다.
