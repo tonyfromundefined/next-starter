@@ -19,7 +19,7 @@ custom:
   # Unique ID included in resource names.
   # Replace it with a random value for every first distribution.
   # https://www.random.org/strings/?num=1&len=10&digits=on&upperalpha=on&loweralpha=on&unique=on&format=html&rnd=new
-  stackId: b3c766dbb41f
+  stackId: NA0DWOoI3q
   #######################################
 
   buckets:

@@ -14,11 +14,11 @@ export default function Pikachu() {
         <p>error</p>
       }
       {data && data.pokemon && (
-        <>
+        <div>
           <Title>{data.pokemon.name}</Title>
           <Line>id: {data.pokemon.id}</Line>
           <Line>number: {data.pokemon.number}</Line>
-        </>
+        </div>
       )}
     </Container>
   )
