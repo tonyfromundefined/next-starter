@@ -101,7 +101,7 @@ $ yarn dev
 ## 컴포넌트에서 MobX store를 사용하기
 Hooks API 이용
 
-#### `~/services/home/pages/index.tsx`
+##### `~/services/home/pages/index.tsx`
 ```tsx
 import { useStore } from '~/store'
 
@@ -114,75 +114,73 @@ export default function PageIndex() {
 
 ## GraphQL Code Generator와 `react-apollo-hooks`를 활용해 컴포넌트에서 GraphQL 쿼리, 뮤테이션하기
 - `.env.development`, `.env.production` 내의 GraphQL 엔드포인트(`NEXT_APP_GRAPHQL_ENDPOINT`)를 수정합니다.
-#### `.env.development`
-```
-NEXT_APP_STAGE = "development"
-NEXT_APP_GRAPHQL_ENDPOINT = "https://graphql-pokemon.now.sh/"
-NEXT_APP_VERSION = "0.0.1"
-```
+  ##### `.env.development`
+  ```
+  NEXT_APP_STAGE = "development"
+  NEXT_APP_GRAPHQL_ENDPOINT = "https://graphql-pokemon.now.sh/"
+  NEXT_APP_VERSION = "0.0.1"
+  ```
 
 - 서비스 유닛 폴더 내에 `.graphql` 파일을 생성합니다. (`~/services/{service}/queries/**.graphql`)
-#### `~/services/home/queries/getPikachu.graphql`
-```graphql
-query getPikachu {
-  pokemon(name: "Pikachu") {
-    id
-    number
-    name
+  ##### `~/services/home/queries/getPikachu.graphql`
+  ```graphql
+  query getPikachu {
+    pokemon(name: "Pikachu") {
+      id
+      number
+      name
+    }
   }
-}
-```
+  ```
 
 - 프로젝트 내에 모든 `.graphql` 파일을 읽고 HOCs, Hooks, 컴포넌트를 생성합니다.
-```bash
-$ yarn generate
-```
+  ```bash
+  $ yarn generate
+  ```
 
 - 생성된 Hook을 Import하여 사용합니다.
-#### `~/services/home/components/Pikachu.tsx`
-```tsx
-import { useGetPikachuQuery } from '~/generated/graphql'
+  ##### `~/services/home/components/Pikachu.tsx`
+  ```tsx
+  import { useGetPikachuQuery } from '~/generated/graphql'
 
-export default function Pikachu() {
-  const { data, loading, error } = useGetPikachuQuery()
+  export default function Pikachu() {
+    const { data, loading, error } = useGetPikachuQuery()
 
-  /* ... */
-}
-```
+    /* ... */
+  }
+  ```
 
 ## 테마 Injection을 통해 Styled Components 활용하기
 - 상수를 삽입하여 프로젝트 전역에서 사용합니다.
+  ##### `./styled/themes/base.ts`
+  ```ts
+  import openColor from 'open-color'
 
-#### `./styled/themes/base.ts`
-```ts
-import openColor from 'open-color'
-
-const theme = {
-  ...openColor,
-}
-```
+  const theme = {
+    ...openColor,
+  }
+  ```
 
 - `styled` 선언 안에서 `props.theme`를 사용해 변수에 접근 할 수 있습니다.
-
-```tsx
-const Title = styled.h3`
-  font-size: 1.5rem;
-  background-color: ${(props) => props.theme.yellow[4]};
-  margin: .5rem 0 1rem;
-  border-radius: .25rem;
-  padding: .25rem;
-`
-```
+  ```tsx
+  const Title = styled.h3`
+    font-size: 1.5rem;
+    background-color: ${(props) => props.theme.yellow[4]};
+    margin: .5rem 0 1rem;
+    border-radius: .25rem;
+    padding: .25rem;
+  `
+  ```
 
 ## MobX store hydration을 활용해 환경 변수 주입하기
 하나의 빌드로 여러 Stage에 배포하기 위해, 이 보일러플레이트는 `dotenv-webpack`(환경변수를 번들에 포함해버림)을 사용하지 않습니다. 이 보일러플레이트는 환경변수를 번들에 포함하는 대신, 서버의 환경변수를 MobX state에 주입합니다. 따라서, 서버와 클라이언트 모두에서 서버의 환경변수에 접근 할 수 있게 됩니다.
 - 환경변수를 클라이언트와 서버 모두에서 사용하기 위해서, `NEXT_APP`이라는 문자열을 변수 이름에 포함합니다.
-  #### `.env.**`
+  ##### `.env.**`
   ```
   NEXT_APP_VERSION = "1.0.0"
   ```
 - 보안 관련한 이유로 환경변수를 서버에서만 사용하기 위해서는 `NEXT_APP`이라는 문자열을 변수 이름에 포함하지 않습니다.
-  #### `.env.**`
+  ##### `.env.**`
   ```
   SECRET_KEY = "dc35abc5-80e1-5725-8a7b-7a6ce1a21c24"
   ```
@@ -203,10 +201,9 @@ $ yarn start
 # 5-b. 서버리스로 배포하기 (AWS Lambda + API Gateway + S3)
 ## 사전 준비사항
 - 🔑 *Serverless framework* 사용을 위한 **IAM Account** (`aws configure`를 통해 CLI에 사전 설정이 필요합니다)
-
-```bash
-$ aws configure
-```
+  ```bash
+  $ aws configure
+  ```
 
 ## 설정
 `serverless.yml`를 수정합니다.

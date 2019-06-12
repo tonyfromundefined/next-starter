@@ -104,7 +104,7 @@ $ yarn dev
 ## Use MobX store in Components
 with Hooks API
 
-#### `~/services/home/pages/index.tsx`
+##### `~/services/home/pages/index.tsx`
 ```tsx
 import { useStore } from '~/store'
 
@@ -117,75 +117,73 @@ export default function PageIndex() {
 
 ## GraphQL Query, Mutation with GraphQL Code Generator and `react-apollo-hooks` in Components
 - Edit GraphQL Endpoint (`NEXT_APP_GRAPHQL_ENDPOINT`) in `.env.development`, `.env.production`
-#### `.env.development`
-```
-NEXT_APP_STAGE = "development"
-NEXT_APP_GRAPHQL_ENDPOINT = "https://graphql-pokemon.now.sh/"
-NEXT_APP_VERSION = "0.0.1"
-```
+  ##### `.env.development`
+  ```
+  NEXT_APP_STAGE = "development"
+  NEXT_APP_GRAPHQL_ENDPOINT = "https://graphql-pokemon.now.sh/"
+  NEXT_APP_VERSION = "0.0.1"
+  ```
 
 - create a `.graphql` file in service unit folder (`~/services/{service}/queries/**.graphql`)
-#### `~/services/home/queries/getPikachu.graphql`
-```graphql
-query getPikachu {
-  pokemon(name: "Pikachu") {
-    id
-    number
-    name
+  ##### `~/services/home/queries/getPikachu.graphql`
+  ```graphql
+  query getPikachu {
+    pokemon(name: "Pikachu") {
+      id
+      number
+      name
+    }
   }
-}
-```
+  ```
 
 - read all `.graphql` files in project and generate HOCs, hooks, components
-```bash
-$ yarn generate
-```
+  ```bash
+  $ yarn generate
+  ```
 
 - Import the created hook, and utilize
-#### `~/services/home/components/Pikachu.tsx`
-```tsx
-import { useGetPikachuQuery } from '~/generated/graphql'
+  ##### `~/services/home/components/Pikachu.tsx`
+  ```tsx
+  import { useGetPikachuQuery } from '~/generated/graphql'
 
-export default function Pikachu() {
-  const { data, loading, error } = useGetPikachuQuery()
+  export default function Pikachu() {
+    const { data, loading, error } = useGetPikachuQuery()
 
-  /* ... */
-}
-```
+    /* ... */
+  }
+  ```
 
 ## Styled Components with Theme Injections
 - Inject variables that used globally
+  ##### `./styled/themes/base.ts`
+  ```ts
+  import openColor from 'open-color'
 
-`./styled/themes/base.ts`
-```ts
-import openColor from 'open-color'
-
-const theme = {
-  ...openColor,
-}
-```
+  const theme = {
+    ...openColor,
+  }
+  ```
 
 - Use the variables in `styled` statements with `props.theme`.
-
-```tsx
-const Title = styled.h3`
-  font-size: 1.5rem;
-  background-color: ${(props) => props.theme.yellow[4]};
-  margin: .5rem 0 1rem;
-  border-radius: .25rem;
-  padding: .25rem;
-`
-```
+  ```tsx
+  const Title = styled.h3`
+    font-size: 1.5rem;
+    background-color: ${(props) => props.theme.yellow[4]};
+    margin: .5rem 0 1rem;
+    border-radius: .25rem;
+    padding: .25rem;
+  `
+  ```
 
 ## Inject Environment variables with MobX store hydration
 To deploy multiple stage in a single build, it doesn't use `dotenv-webpack`. (Include environment variable in webpack bundle) Instead of including variables in webpack, it inject server's environment variables in MobX state. So, server and client can use variables in server and client both.
 - To use environment variables in client and server both, append `NEXT_APP` in variable name
-  #### `.env.**`
+  ##### `.env.**`
   ```
   NEXT_APP_VERSION = "1.0.0"
   ```
 - To use environment variables in server only by security reason, do not append `NEXT_APP` in variable name
-  #### `.env.**`
+  ##### `.env.**`
   ```
   SECRET_KEY = "dc35abc5-80e1-5725-8a7b-7a6ce1a21c24"
   ```
@@ -206,9 +204,9 @@ $ yarn start
 ## Pre-requisites
 - 🔑 **IAM Account** for *Serverless framework* (Requires pre-configuration using `aws configure`)
 
-```bash
-$ aws configure
-```
+  ```bash
+  $ aws configure
+  ```
 
 ## Configuration
 Edit `serverless.yml`
