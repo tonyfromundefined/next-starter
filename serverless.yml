@@ -1,4 +1,4 @@
-service: next-starter
+service: next-starter  # 1. Edit service name
 
 plugins:
   - serverless-s3-sync
@@ -13,14 +13,14 @@ provider:
   name: aws
   runtime: nodejs10.x
   stage: ${opt:stage, 'dev'}
-  region: us-east-1
+  region: us-east-1  # 2. Edit AWS region name
 
 custom:
   #######################################
   # Unique ID included in resource names.
   # Replace it with a random value for every first distribution.
   # https://www.random.org/strings/?num=1&len=6&digits=on&loweralpha=on&unique=on&format=html&rnd=new
-  stackId: 0uelbz
+  stackId: '0uelbz'  # 3. Update Random Stack ID
   #######################################
 
   buckets:
@@ -61,6 +61,28 @@ functions:
             parameters:
               paths:
                 proxy: true
+
+  # 4. If you implement more than 1 entry, add entries.
+  # hello:
+  #   name: ${self:service}-${self:custom.stackId}-${self:provider.stage}-hello
+  #   handler: dist/serverless/bundles/hello.handler
+  #   memorySize: 2048
+  #   timeout: 10
+  #   environment:
+  #     NODE_ENV: production
+  #   package:
+  #     include:
+  #       - dist/serverless/bundles/hello.js
+  #     exclude:
+  #       - '**'
+  #   events:
+  #     - http:
+  #         path: /
+  #         method: any
+  #     - http:
+  #         path: /{proxy+}
+  #         method: any
+
 
 resources:
   Resources:

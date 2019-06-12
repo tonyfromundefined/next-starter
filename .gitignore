@@ -65,3 +65,6 @@ dist
 .serverless
 
 src/generated
+
+.env.development
+.env.production
