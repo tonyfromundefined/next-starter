@@ -113,8 +113,13 @@ export default function PageIndex() {
 ```
 
 ## GraphQL Code Generator와 `react-apollo-hooks`를 활용해 컴포넌트에서 GraphQL 쿼리, 뮤테이션하기
-
-#### `~/services/home/components/Pikachu.tsx`
+- `.env.development`, `.env.production` 내의 GraphQL 엔드포인트(`NEXT_APP_GRAPHQL_ENDPOINT`)를 수정합니다.
+#### `.env.development`
+```
+NEXT_APP_STAGE = "development"
+NEXT_APP_GRAPHQL_ENDPOINT = "https://graphql-pokemon.now.sh/"
+NEXT_APP_VERSION = "0.0.1"
+```
 
 - 서비스 유닛 폴더 내에 `.graphql` 파일을 생성합니다. (`~/services/{service}/queries/**.graphql`)
 #### `~/services/home/queries/getPikachu.graphql`
