@@ -2,7 +2,7 @@
 *Production-ready* `Next.js` boilerplate, `GraphQL` and `MobX` based. [Erion Classroom](https://classroom.erion.io) uses this boilerplate in production. Authentication status can be stored in cookie with `Secure`,`HttpOnly` options.
 
 ## Translations
-- [Korean](/readmes/ko.md) 🇰🇷
+- [Korean](/translations/ko.md) 🇰🇷
 
 ## Pre-Installed
 The following libraries / Framework are pre-installed.
