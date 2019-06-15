@@ -17,11 +17,13 @@ require('dotenv').config({
   path: `./.env.${IS_PROD ? 'production' : 'development'}`,
 });
 
+
 (async function main() {
   const server = await createServer()
 
   server.listen(PORT)
 })()
+
 
 async function createServer() {
   const app = next({
@@ -44,48 +46,58 @@ async function createServer() {
   return server
 }
 
-if (options.generatePageAliases && !IS_PROD) {
-  chokidar
-    .watch(path.resolve('./src/services'), {
-      ignored: /^\./,
-      persistent: true,
-    })
-    .on('add', onFileAdded)
-    .on('unlink', onFileRemoved)
-}
 
-function onFileAdded (p) {
-  const parsed = p.slice(p.indexOf('/src/services') + 14).split('/')
+/**
+ * Additional Helpers
+ */
+switch (true) {
+  case options.generatePageAliases: {
+    if (IS_PROD) {
+      break
+    }
+    
+    function onFileAdded (p) {
+      const parsed = p.slice(p.indexOf('/src/services') + 14).split('/')
+    
+      const service = parsed[0]
+      const type = parsed[1]
+    
+      if (type !== 'pages') {
+        return
+      }
+    
+      const remains = path.join(...parsed.filter((_, index) => index > 1))
+    
+      const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${remains}`: `./src/pages/${service}/${remains}`)
+      const generatedFileContent = `export { default } from '~~/${service}/pages/${remains}'\n`
+    
+      fs.outputFile(generatedFilePath, generatedFileContent)
+    }
+    
+    function onFileRemoved (p) {
+      const parsed = p.slice(p.indexOf('/src/services') + 14).split('/')
+    
+      const service = parsed[0]
+      const type = parsed[1]
+    
+      if (type !== 'pages') {
+        return
+      }
+    
+      const remains = path.join(...parsed.filter((_, index) => index > 1))
+      const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${remains}`: `./src/pages/${service}/${remains}`)
+    
+      fs.remove(generatedFilePath)
+    }
 
-  const service = parsed[0]
-  const type = parsed[1]
+    chokidar
+      .watch(path.resolve('./src/services'), {
+        ignored: /^\./,
+        persistent: true,
+      })
+      .on('add', onFileAdded)
+      .on('unlink', onFileRemoved)
 
-  if (type !== 'pages') {
-    return
+    break
   }
-
-  const remains = path.join(...parsed.filter((_, index) => index > 1))
-
-  const generatedFile = {
-    path: path.resolve(service === 'index' ? `./src/pages/${remains}`: `./src/pages/${service}/${remains}`),
-    content: `export { default } from '~~/${service}/pages/${remains}'\n`
-  }
-
-  fs.outputFile(generatedFile.path, generatedFile.content)
-}
-
-function onFileRemoved (p) {
-  const parsed = p.slice(p.indexOf('/src/services') + 14).split('/')
-
-  const service = parsed[0]
-  const type = parsed[1]
-
-  if (type !== 'pages') {
-    return
-  }
-
-  const remains = path.join(...parsed.filter((_, index) => index > 1))
-  const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${remains}`: `./src/pages/${service}/${remains}`)
-
-  fs.remove(generatedFilePath)
 }
