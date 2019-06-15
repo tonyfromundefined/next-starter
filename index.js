@@ -61,13 +61,12 @@ switch (true) {
     
       const service = parsed[0]
       const type = parsed[1]
+      const file = path.join(...parsed.filter((_, index) => index > 1))
     
       if (type !== 'pages') {
         return
       }
-    
-      const file = path.join(...parsed.filter((_, index) => index > 1))
-    
+
       const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${file}`: `./src/pages/${service}/${file}`)
       const generatedFileContent = `export { default } from '~~/${service}/pages/${file}'\n`
     
@@ -79,12 +78,12 @@ switch (true) {
     
       const service = parsed[0]
       const type = parsed[1]
+      const file = path.join(...parsed.filter((_, index) => index > 1))
     
       if (type !== 'pages') {
         return
       }
     
-      const file = path.join(...parsed.filter((_, index) => index > 1))
       const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${file}`: `./src/pages/${service}/${file}`)
     
       fs.remove(generatedFilePath)
