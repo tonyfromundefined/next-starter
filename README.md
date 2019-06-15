@@ -311,4 +311,7 @@ $ yarn deploy:prod
 ```
 
 # 6. To-do
+- [ ] Automatically generate alias files at `~/pages` by watching `~/services` in dev mode
+- [ ] I18n Support
+
 If you have a feature request, please create a new issue. And also, pull requests are always welcome🙏
