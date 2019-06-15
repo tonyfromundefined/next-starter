@@ -64,7 +64,5 @@ dist
 .DS_Store
 .serverless
 
-src/generated
-
 .env.development
 .env.production
