@@ -50,11 +50,11 @@ if (options.generatePageAliases && !IS_PROD) {
       ignored: /^\./,
       persistent: true,
     })
-    .on('add', onPageAdded)
-    .on('unlink', onPageRemoved)
+    .on('add', onFileAdded)
+    .on('unlink', onFileRemoved)
 }
 
-function onPageAdded (p) {
+function onFileAdded (p) {
   const parsed = p.slice(p.indexOf('/src/services') + 14).split('/')
 
   const service = parsed[0]
@@ -74,7 +74,7 @@ function onPageAdded (p) {
   fs.outputFile(generatedFile.path, generatedFile.content)
 }
 
-function onPageRemoved (p) {
+function onFileRemoved (p) {
   const parsed = p.slice(p.indexOf('/src/services') + 14).split('/')
 
   const service = parsed[0]
