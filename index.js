@@ -66,10 +66,10 @@ switch (true) {
         return
       }
     
-      const remains = path.join(...parsed.filter((_, index) => index > 1))
+      const file = path.join(...parsed.filter((_, index) => index > 1))
     
-      const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${remains}`: `./src/pages/${service}/${remains}`)
-      const generatedFileContent = `export { default } from '~~/${service}/pages/${remains}'\n`
+      const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${file}`: `./src/pages/${service}/${file}`)
+      const generatedFileContent = `export { default } from '~~/${service}/pages/${file}'\n`
     
       fs.outputFile(generatedFilePath, generatedFileContent)
     }
@@ -84,8 +84,8 @@ switch (true) {
         return
       }
     
-      const remains = path.join(...parsed.filter((_, index) => index > 1))
-      const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${remains}`: `./src/pages/${service}/${remains}`)
+      const file = path.join(...parsed.filter((_, index) => index > 1))
+      const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${file}`: `./src/pages/${service}/${file}`)
     
       fs.remove(generatedFilePath)
     }
