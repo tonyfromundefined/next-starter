@@ -18,6 +18,7 @@ export default function PageIndex() {
         <Code>React Apollo Hooks</Code>
         <Code>GraphQL Codegen</Code>
         <Code>MobX</Code>
+        <Code>mobx-state-tree</Code>
         <Code>styled-components</Code>
         <Code>next-optimized-images</Code>
         <Code>Serverless Framework</Code>

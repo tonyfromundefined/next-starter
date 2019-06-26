@@ -6,8 +6,7 @@ import express from 'express'
 import fs from 'fs-extra'
 import next from 'next'
 import path from 'path'
-
-import config from './next.config.js'
+import conf from './next.config'
 import options from './options.json'
 import api from './src/api'
 
@@ -22,7 +21,7 @@ const PORT = IS_PROD ? 80 : 3000;
 
 async function createServer() {
   const app = next({
-    conf: config,
+    conf,
     dev: !IS_PROD,
     dir: path.resolve(__dirname, './src'),
   })
