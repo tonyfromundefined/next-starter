@@ -1,2 +1,2 @@
-export * from './cookies'
-export * from './tokens'
+export * from './cookie'
+export * from './token'
