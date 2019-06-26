@@ -11,13 +11,15 @@ import options from './options.json'
 import api from './src/api'
 
 const dev = process.env.NODE_ENV !== 'production'
-const port = dev ? 3000 : 80;
+const port = dev ? 3000 : 80
 
-(async function main() {
+main()
+
+async function main() {
   const server = await createServer()
 
   server.listen(port)
-})()
+}
 
 async function createServer() {
   const app = next({
