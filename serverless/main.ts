@@ -7,7 +7,7 @@ import nocache from 'nocache'
 
 import api from '../src/api'
 
-import * as error from '../dist/serverless/pages/_error.js'
+import * as error from '../dist/serverless/pages/_error'
 import * as index from '../dist/serverless/pages/index'
 
 const BINARY_MIME_TYPES = [
