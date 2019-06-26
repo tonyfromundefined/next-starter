@@ -1,14 +1,15 @@
-const bodyParser = require('body-parser')
-const chokidar = require('chokidar')
-const cookieParser = require('cookie-parser')
-const express = require('express')
-const fs = require('fs-extra')
-const next = require('next')
-const path = require('path')
 
-const api = require('./src/api')
-const config = require('./next.config')
-const options = require('./options')
+import bodyParser from 'body-parser'
+import chokidar from 'chokidar'
+import cookieParser from 'cookie-parser'
+import express from 'express'
+import fs from 'fs-extra'
+import next from 'next'
+import path from 'path'
+
+import config from './next.config.js'
+import options from './options.json'
+import api from './src/api'
 
 const IS_PROD = process.env.NODE_ENV === 'production'
 const PORT = IS_PROD ? 80 : 3000;
@@ -21,11 +22,11 @@ const PORT = IS_PROD ? 80 : 3000;
 
 async function createServer() {
   const app = next({
-    config,
+    conf: config,
     dev: !IS_PROD,
     dir: path.resolve(__dirname, './src'),
   })
-  
+
   await app.prepare()
 
   const server = express()
@@ -35,7 +36,9 @@ async function createServer() {
   server.use(cookieParser())
 
   server.use(api)
-  server.use((req, res) => app.render(req, res, req._parsedUrl.pathname, req.query))
+  server.use((req: any, res) => {
+    return app.render(req, res, req._parsedUrl.pathname, req.query)
+  })
 
   return server
 }
@@ -48,37 +51,37 @@ switch (true) {
     if (IS_PROD) {
       break
     }
-    
-    function onFileAdded (p) {
-      const parsed = p.slice(p.indexOf('/src/services') + 14).split('/')
-    
+
+    const onFileAdded = (__path: string) => {
+      const parsed = __path.slice(__path.indexOf('/src/services') + 14).split('/')
+
       const service = parsed[0]
       const type = parsed[1]
       const file = path.join(...parsed.filter((_, index) => index > 1))
-    
+
       if (type !== 'pages') {
         return
       }
 
-      const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${file}`: `./src/pages/${service}/${file}`)
+      const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${file}` : `./src/pages/${service}/${file}`)
       const generatedFileContent = `export { default } from '~~/${service}/pages/${file}'\n`
-    
+
       fs.outputFile(generatedFilePath, generatedFileContent)
     }
-    
-    function onFileRemoved (p) {
-      const parsed = p.slice(p.indexOf('/src/services') + 14).split('/')
-    
+
+    const onFileRemoved = (__path: string) => {
+      const parsed = __path.slice(__path.indexOf('/src/services') + 14).split('/')
+
       const service = parsed[0]
       const type = parsed[1]
       const file = path.join(...parsed.filter((_, index) => index > 1))
-    
+
       if (type !== 'pages') {
         return
       }
-    
-      const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${file}`: `./src/pages/${service}/${file}`)
-    
+
+      const generatedFilePath = path.resolve(service === 'index' ? `./src/pages/${file}` : `./src/pages/${service}/${file}`)
+
       fs.remove(generatedFilePath)
     }
 

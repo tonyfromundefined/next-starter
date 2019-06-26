@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "lib": [
       "esnext",
       "dom",
@@ -9,7 +9,7 @@
       "scripthost",
       "esnext.asynciterable"
     ],
-    "module": "es6",
+    "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "jsx": "preserve",
@@ -23,10 +23,13 @@
     "esModuleInterop": true,
     "strict": true,
     "strictNullChecks": true,
+    "allowJs": true,
+    "resolveJsonModule":true,
     "baseUrl": ".",
     "paths": {
       "~~/*": ["./src/services/*"],
       "~/*": ["./src/*"]
-    }
+    },
+    "outDir": "dist"
   }
 }
