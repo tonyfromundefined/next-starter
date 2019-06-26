@@ -3,20 +3,21 @@ import { ApolloClient } from 'apollo-client'
 import { setContext } from 'apollo-link-context'
 import { createHttpLink } from 'apollo-link-http'
 import fetch from 'isomorphic-unfetch'
-import { Store } from '../store'
+import { checkTokenIsExpired } from '../helpers'
+import { IStore } from '../store'
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
 
 const isServer = typeof window === 'undefined'
 
-export function createApolloClient(store: Store, state?: any) {
+export function createApolloClient(store: IStore, state?: any) {
   if (apolloClient) {
     return apolloClient
 
   } else {
     const httpLink = createHttpLink({
       fetch,
-      uri: store.environments.NEXT_APP_GRAPHQL_ENDPOINT,
+      uri: store.environments.get('NEXT_APP_GRAPHQL_ENDPOINT'),
     })
 
     const link = createAuthorizationLink(store).concat(httpLink)
@@ -42,24 +43,37 @@ export function createApolloClient(store: Store, state?: any) {
   }
 }
 
-function createAuthorizationLink(store: Store) {
+function createAuthorizationLink(store: IStore) {
   return setContext(async (_req, { headers }) => {
-    if (!store.tokens) {
+    const tokens = store.tokens
+
+    if (typeof tokens === 'undefined') {
       return {
         headers,
       }
     }
 
-    const { accessToken } = store.tokens
+    const isStoredAccessTokenExpired = checkTokenIsExpired(tokens.accessToken)
 
-    /**
-     * @todo
-     * If `store.tokens.accessToken` is expired,
-     * refresh it with `store.tokens.refreshToken`
-     * This function can be executed both on client and server
-     */
+    if (!isStoredAccessTokenExpired) {
+      return createHeaders(tokens.accessToken, headers)
 
-    return createHeaders(accessToken, headers)
+    } else {
+      try {
+        const { accessToken: refreshedAccessToken } = await store.refreshTokens(tokens)
+
+        if (!refreshedAccessToken) {
+          throw new Error()
+        }
+
+        return createHeaders(refreshedAccessToken, headers)
+
+      } catch (error) {
+        return {
+          headers,
+        }
+      }
+    }
   })
 }
 

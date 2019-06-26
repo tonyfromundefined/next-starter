@@ -1,6 +1,6 @@
-import { useStore } from '~/store'
 import styled from '~/styled'
 import Pikachu from '../components/Pikachu'
+import { useStore } from '../store'
 
 export default function PageIndex() {
   const store = useStore()
@@ -24,7 +24,7 @@ export default function PageIndex() {
         <Code>AWS Lambda</Code>
         <Code>Dotenv</Code>
       </Line>
-      <Line>version: {store.environments.NEXT_APP_VERSION}</Line>
+      <Line>version: {store.environments.get('NEXT_APP_VERSION')}</Line>
       <Line>by <Author>@tonyfromundefined</Author></Line>
       <Pikachu />
     </Container>

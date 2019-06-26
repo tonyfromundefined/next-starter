@@ -11,19 +11,13 @@ const config = require('./next.config')
 const options = require('./options')
 
 const IS_PROD = process.env.NODE_ENV === 'production'
-const PORT = IS_PROD ? 80 : 3000
-
-require('dotenv').config({
-  path: `./.env.${IS_PROD ? 'production' : 'development'}`,
-});
-
+const PORT = IS_PROD ? 80 : 3000;
 
 (async function main() {
   const server = await createServer()
 
   server.listen(PORT)
 })()
-
 
 async function createServer() {
   const app = next({
@@ -45,7 +39,6 @@ async function createServer() {
 
   return server
 }
-
 
 /**
  * Additional Helpers

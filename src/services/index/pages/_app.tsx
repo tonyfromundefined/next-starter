@@ -5,16 +5,12 @@ import Head from 'next/head'
 import React, { Fragment } from 'react'
 import { ApolloProvider as ApolloHookProvider, getMarkupFromTree } from 'react-apollo-hooks'
 import { renderToString as renderFunction } from 'react-dom/server'
-import { createApolloClient } from '~/apollo'
-import { createStore, IEnvironments, Store, StoreProvider } from '~/store'
 import { ThemeProvider } from '~/styled'
 import GlobalStyle from '~/styled/global'
 import baseTheme from '~/styled/themes/base'
+import { createApolloClient } from '../apollo'
 import FaviconImage from '../assets/favicon.png?url'
-
-const isServer = typeof window === 'undefined'
-
-const environments = isServer ? extractNextEnvironments(process.env) : undefined
+import { createStore, IEnvironments, IStore, StoreProvider } from '../store'
 
 export default class extends React.Component {
   static async getInitialProps(appContext: any) {
@@ -23,61 +19,63 @@ export default class extends React.Component {
     const { Component, router } = appContext
 
     const store = createStore({
-      environments,
+      environments: extractNextEnvironments(process.env as IEnvironments),
     })
 
-    const apollo = createApolloClient(store)
+    try {
+      await store.nextServerInit(appContext.ctx.req, appContext.ctx.res)
+      appContext.ctx.store = store
 
-    appContext.ctx.store = store
-
-    if (isServer) {
-      try {
-        await Promise.all([
-          store.nextServerInit(appContext.ctx.req, appContext.ctx.res),
-          getMarkupFromTree({
-            tree: (
-              <App
-                Component={Component}
-                router={router}
-                apolloClient={apollo}
-                store={store}
-                {...appProps}
-              />
-            ),
-            renderFunction,
-          }),
-        ])
-
-      } catch (error) {
-        // tslint:disable-next-line:no-console
-        console.error('[Error 29948] Pre-operation required for SSR failed')
-      }
-
-      Head.rewind()
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.error('[Error 18598] Store initialization failed')
     }
 
+    const apolloClient = createApolloClient(store)
+
+    try {
+      await getMarkupFromTree({
+        tree: (
+          <App
+            Component={Component}
+            router={router}
+            apolloClient={apolloClient}
+            store={store}
+            {...appProps}
+          />
+        ),
+        renderFunction,
+      })
+
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.error('[Error 29948] Operating queries for SSR failed')
+    }
+
+    Head.rewind()
+
     return {
-      apolloState: apollo.cache.extract(),
-      store,
+      apolloState: apolloClient.cache.extract(),
+      storeState: store,
       ...appProps,
     }
   }
 
   apolloClient: ApolloClient<any>
-  store: Store
+  store: IStore
 
   constructor(props: any) {
     super(props)
-    this.store = createStore(props.store)
+    this.store = createStore(props.storeState)
     this.apolloClient = createApolloClient(this.store, props.apolloState)
   }
 
   render() {
     return (
       <App
+        {...this.props}
         apolloClient={this.apolloClient}
         store={this.store}
-        {...this.props}
       />
     )
   }
