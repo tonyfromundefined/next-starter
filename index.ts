@@ -10,19 +10,19 @@ import conf from './next.config'
 import options from './options.json'
 import api from './src/api'
 
-const IS_PROD = process.env.NODE_ENV === 'production'
-const PORT = IS_PROD ? 80 : 3000;
+const dev = process.env.NODE_ENV !== 'production'
+const port = dev ? 3000 : 80;
 
 (async function main() {
   const server = await createServer()
 
-  server.listen(PORT)
+  server.listen(port)
 })()
 
 async function createServer() {
   const app = next({
     conf,
-    dev: !IS_PROD,
+    dev,
     dir: path.resolve(__dirname, './src'),
   })
 
@@ -47,7 +47,7 @@ async function createServer() {
  */
 switch (true) {
   case options.generatePageAliases: {
-    if (IS_PROD) {
+    if (!dev) {
       break
     }
 
