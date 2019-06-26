@@ -18,6 +18,7 @@
 
 ### 상태 관리
 - [MobX 5](https://github.com/mobxjs/mobx)
+- [mobx-state-tree](https://github.com/mobxjs/mobx-state-tree)
 
 ### 스타일링
 - [styled-components](https://www.styled-components.com)
