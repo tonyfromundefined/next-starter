@@ -1,9 +1,8 @@
 import { Request, Response } from 'express-serve-static-core'
-import forIn from 'lodash/forIn'
 import { useStaticRendering } from 'mobx-react-lite'
 import { types } from 'mobx-state-tree'
 import { createContext, useContext } from 'react'
-import { checkTokenIsExpired } from '../helpers'
+import { checkTokenIsExpired, removeMapInCookie, setMapInCookie } from '../helpers'
 
 const isServer = typeof window === 'undefined'
 
@@ -120,26 +119,6 @@ const Store = types
       }
     },
   }))
-
-function setMapInCookie(res: Response, map: { [key: string]: string }): void {
-  let cookies = ''
-
-  forIn(map, (value, key) => {
-    cookies += `${key}=${value}; `
-  })
-
-  res.setHeader('Set-Cookie', cookies + 'Path=/; Secure; HttpOnly;')
-}
-
-function removeMapInCookie(keys: string[], res: Response): void {
-  let cookies = ''
-
-  keys.map((key) => {
-    cookies += `${key}=deleted; `
-  })
-
-  res.setHeader('Set-Cookie', cookies + 'Path=/; Secure; HttpOnly;')
-}
 
 export const StoreContext = createContext({} as IStore)
 export const StoreProvider = StoreContext.Provider
