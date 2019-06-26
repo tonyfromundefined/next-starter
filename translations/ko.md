@@ -51,29 +51,7 @@ $ yarn dev
 ```
 
 # 2. 폴더 구조
-### 1. `/api`
-*Express.js*를 사용하여 sub-API를 만들 수 있습니다. API가 GraphQL로 따로 존재 할 것이기 때문에, 해당 API는 `ajax` 콜을 통해 동적으로 `Set-Cookie`를 할 때 사용하십시오. (Refresh Token 등)
-> 추천👏: URL을 `*.json`으로 끝내면 JSON을 반환하는 REST API 임을 쉽게 구분 할 수 있습니다.
-
-### 2. `/apollo`
-*Apollo Client* 설정입니다. GraphQL 요청 시에 `accessToken`을 Authorization Header를 삽입합니다.
-- 토큰 새로고침 관련하여 구현이 필요합니다.
-
-### 3. `/generated`
-*GraphQL Code Generator*에 의해 자동 생성된 코드가 저장됩니다.
-
-### 4. `/pages`
-파일 기반의 페이지 라우팅을 맡습니다. 여기에 생성되는 파일은 다른 컴포넌트에 Alias 하는 용도로만 사용되며, 모든 컴포넌트 구현은 `/services` 내부에서 합니다.
-```typescript
-export { default } from '~/services/home/pages/index'
-```
-> 저는 추후 확장성을 위해 코드를 모두 서비스 단위로 분리했습니다. 서비스 내에서 사용되는 요소들은 서비스 내에 삽입합니다. (`/queries`, `/helpers`, `/components`) 관련 토론은 [https://softwareengineering.stackexchange.com/questions/338597/folder-by-type-or-folder-by-feature](https://softwareengineering.stackexchange.com/questions/338597/folder-by-type-or-folder-by-feature)를 확인하세요.
-
-### 5. `/serverless`
-서버리스 배포에 필요한 도입 JavaScript 파일을 구현합니다. (CommonJS)
-> 추천👏: 엔트리 파일을 서비스 유닛 별로 분리하세요.
-
-### 6. `/services`
+### 1. `/src/services`
 큰 어플리케이션을 여러개의 가상 서비스로 분리합니다. (`/home`, `/auth`, ...)
 > 추천👏: 컴포넌트와 비즈니스 로직을 서비스 유닛 폴더 내에 분리해서 구현합니다.
 - `~/services/{service}/components/**.tsx`
@@ -83,15 +61,39 @@ export { default } from '~/services/home/pages/index'
 - `~/services/{service}/types/**.ts`
 - ...
 
-### 7. `/store`
-전역에서 사용되는 하나의 저장소입니다. 대부분의 캐싱 작업은 *Apollo Client*가 해주기 때문에, 해당 저장소는 로그인 처리 등 특정 전역 상태 관리를 위해서만 사용하시면 됩니다.
+### 2. `/src/services/index/apollo`
+*Apollo Client* 설정입니다. GraphQL 요청 시에 `accessToken`을 Authorization Header를 삽입합니다.
+- 토큰 새로고침 관련하여 구현이 필요합니다.
 
-### 8. `/styled`
+### 3. `/src/services/index/store`
+전역에서 사용되는 `mobx-state-tree` 기반의 저장소입니다. 대부분의 캐싱 작업은 *Apollo Client*가 해주기 때문에, 해당 저장소는 로그인 처리 등 특정 전역 상태 관리를 위해서만 사용하시면 됩니다.
+
+### 4. `/src/generated`
+*GraphQL Code Generator*에 의해 자동 생성된 코드가 저장됩니다.
+
+### 5. `/src/pages`
+파일 기반의 페이지 라우팅을 맡습니다. 여기에 생성되는 파일은 다른 컴포넌트에 Alias 하는 용도로만 사용되며, 모든 컴포넌트 구현은 `/services` 내부에서 합니다.
+```typescript
+export { default } from '~/services/home/pages/index'
+```
+> 저는 추후 확장성을 위해 코드를 모두 서비스 단위로 분리했습니다. 서비스 내에서 사용되는 요소들은 서비스 내에 삽입합니다. (`/queries`, `/helpers`, `/components`) 관련 토론은 [https://softwareengineering.stackexchange.com/questions/338597/folder-by-type-or-folder-by-feature](https://softwareengineering.stackexchange.com/questions/338597/folder-by-type-or-folder-by-feature)를 확인하세요.
+
+`options.json`에서 `generatePageAliases`를 `true`로 설정한 경우, 이 보일러플레이트는 `yarn dev`를 실행 했을 때, 모든 `/services/**/pages/**.tsx`를 순회하면서 페이지 Alias를 `/pages`에 자동으로 생성합니다.
+
+### 6. `/src/styled`
 테마와 글로벌 CSS 선언을 합니다.
 
-### 9. `/types`
+### 7. `/src/api`
+*Express.js*를 사용하여 sub-API를 만들 수 있습니다. API가 GraphQL로 따로 존재 할 것이기 때문에, 해당 API는 `ajax` 콜을 통해 동적으로 `Set-Cookie`를 할 때 사용하십시오. (Refresh Token 등)
+> 추천👏: URL을 `*.json`으로 끝내면 JSON을 반환하는 REST API 임을 쉽게 구분 할 수 있습니다.
+
+### 8. `/src/types`
 타입 선언을 담습니다. (`.d.ts`)
 > 추천👏: 각 서비스 유닛에서 사용되는 타입은 각자의 서비스 유닛 폴더 내 `~/services/{service}/types`에 구현하도록 합니다.
+
+### 9. `/serverless`
+서버리스 배포에 필요한 도입 TypeScript 파일을 구현합니다.
+> 추천👏: 엔트리 파일을 서비스 유닛 별로 분리하세요.
 
 # 3. 개발하기
 ```bash
