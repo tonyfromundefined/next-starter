@@ -48,6 +48,11 @@ const Store = types
     tokens: types.maybe(Tokens),
     user: types.maybe(User),
   })
+  .views((self) => ({
+    get isAuthenticated() {
+      return typeof self.tokens !== 'undefined'
+    },
+  }))
   .actions((self) => ({
     setEnvironments(environments: { [key: string]: string }) {
       Object.entries(environments).map(([key, value]) => {
