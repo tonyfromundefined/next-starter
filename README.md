@@ -21,6 +21,7 @@ The following libraries / Framework are pre-installed.
 
 ### State Management
 - [MobX 5](https://github.com/mobxjs/mobx)
+- [mobx-state-tree](https://github.com/mobxjs/mobx-state-tree)
 
 ### Styling
 - [styled-components](https://www.styled-components.com)
