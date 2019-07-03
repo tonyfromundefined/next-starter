@@ -28,6 +28,7 @@
     "baseUrl": ".",
     "paths": {
       "express-asyncify": ["./src/typings/express-asyncify"],
+      "open-color": ["./src/typings/open-color"],
       "~~/*": ["./src/services/*"],
       "~/*": ["./src/*"]
     },
