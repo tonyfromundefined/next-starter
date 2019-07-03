@@ -7,8 +7,9 @@ const router = Router()
  * APIs can be implemented using express.js
  */
 
-router.get('/index.json', (_req, res) => {
+router.get('/index.json', (req, res) => {
   return res.json({
+    sessionID: req.sessionID,
     hello: 'world',
   })
 })

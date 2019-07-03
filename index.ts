@@ -3,6 +3,7 @@ import chokidar from 'chokidar'
 import cookieParser from 'cookie-parser'
 import express from 'express'
 import asyncify from 'express-asyncify'
+import session from 'express-session'
 import fs from 'fs-extra'
 import next from 'next'
 import path from 'path'
@@ -29,6 +30,12 @@ async function main() {
   server.use(bodyParser.json())
   server.use(bodyParser.urlencoded({ extended: true }))
   server.use(cookieParser())
+
+  server.use(session({
+    secret: '602f0a56-136b-524b-9871-d0450ef60b48',
+    resave: true,
+    saveUninitialized: true,
+  }))
 
   server.use(api)
   server.use((req: any, res) => {
