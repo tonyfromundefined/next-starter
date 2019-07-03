@@ -3,6 +3,7 @@ import awsServerlessExpress from 'aws-serverless-express'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import express from 'express'
+import asyncify from 'express-asyncify'
 import nocache from 'nocache'
 
 import api from '../src/api'
@@ -23,7 +24,7 @@ const BINARY_MIME_TYPES = [
   'text/xml',
 ]
 
-const app = express()
+const app = asyncify(express())
 
 app.use(nocache())
 app.use(bodyParser.json())
