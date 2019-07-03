@@ -31,6 +31,7 @@
     "cookie-parser": "^1.4.4",
     "encoding": "^0.1.12",
     "express": "^4.17.1",
+    "express-asyncify": "^1.0.0",
     "graphql": "^14.3.1",
     "isomorphic-unfetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",

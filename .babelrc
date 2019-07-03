@@ -16,9 +16,22 @@
         "~": "./src",
         "~~": "./src/services"
       }
-    }],
-    ["styled-components", {
-      "displayName": true,
     }]
-  ]
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        ["styled-components", {
+          "displayName": false,
+        }]
+      ]
+    },
+    "development": {
+      "plugins": [
+        ["styled-components", {
+          "displayName": true,
+        }]
+      ]
+    }, 
+  }
 }

@@ -1,8 +1,8 @@
-
 import bodyParser from 'body-parser'
 import chokidar from 'chokidar'
 import cookieParser from 'cookie-parser'
 import express from 'express'
+import asyncify from 'express-asyncify'
 import fs from 'fs-extra'
 import next from 'next'
 import path from 'path'
@@ -30,7 +30,7 @@ async function createServer() {
 
   await app.prepare()
 
-  const server = express()
+  const server = asyncify(express())
 
   server.use(bodyParser.json())
   server.use(bodyParser.urlencoded({ extended: true }))

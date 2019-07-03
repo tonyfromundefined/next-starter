@@ -27,6 +27,7 @@
     "resolveJsonModule":true,
     "baseUrl": ".",
     "paths": {
+      "express-asyncify": ["./src/typings/express-asyncify"],
       "~~/*": ["./src/services/*"],
       "~/*": ["./src/*"]
     },
