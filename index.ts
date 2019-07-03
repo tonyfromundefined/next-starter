@@ -16,12 +16,6 @@ const port = dev ? 3000 : 80
 main()
 
 async function main() {
-  const server = await createServer()
-
-  server.listen(port)
-}
-
-async function createServer() {
   const app = next({
     conf,
     dev,
@@ -41,7 +35,7 @@ async function createServer() {
     return app.render(req, res, req._parsedUrl.pathname, req.query)
   })
 
-  return server
+  server.listen(port)
 }
 
 /**
