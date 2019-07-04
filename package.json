@@ -18,7 +18,7 @@
     "undeploy:stage": "NODE_ENV=production sls remove --stage stage",
     "undeploy:prod": "NODE_ENV=production sls remove --stage prod",
     "lint": "tslint --project '.'",
-    "pregenerate": "get-graphql-schema `dotenv -e .env.development -p NEXT_APP_GRAPHQL_ENDPOINT` > ./src/generated/schema.graphql",
+    "pregenerate": "get-graphql-schema `dotenv -e .env.development -p GRAPHQL_ENDPOINT` > ./src/generated/schema.graphql",
     "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "apollo-link-context": "^1.0.17",
     "apollo-link-http": "^1.5.14",
     "aws-serverless-express": "^3.3.6",
+    "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
     "encoding": "^0.1.12",
