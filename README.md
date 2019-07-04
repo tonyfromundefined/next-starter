@@ -120,13 +120,12 @@ export default function PageIndex() {
 ```
 
 ## GraphQL Query, Mutation with GraphQL Code Generator and `react-apollo-hooks` in Components
-- Edit GraphQL Endpoint (`GRAPHQL_ENDPOINT`) in `.env.development`, `.env.production`
+- Edit GraphQL Endpoint (`NEXT_APP_GRAPHQL_ENDPOINT`) in `.env.development`, `.env.production`
   ##### `.env.development`
   ```
   NEXT_APP_STAGE = "development"
+  NEXT_APP_GRAPHQL_ENDPOINT = "https://graphql-pokemon.now.sh/"
   NEXT_APP_VERSION = "0.0.1"
-
-  GRAPHQL_ENDPOINT = "https://graphql-pokemon.now.sh/"
   ```
 
 - create a `.graphql` file in service unit folder (`~/services/{service}/queries/**.graphql`)

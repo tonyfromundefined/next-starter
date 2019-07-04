@@ -17,7 +17,7 @@ export function createApolloClient(store: IStore, state?: any) {
   } else {
     const httpLink = createHttpLink({
       fetch,
-      uri: '/graphql',
+      uri: store.environments.get('NEXT_APP_GRAPHQL_ENDPOINT'),
     })
 
     const link = createAuthorizationLink(store).concat(httpLink)
