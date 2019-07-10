@@ -315,8 +315,7 @@ $ yarn deploy:prod
 ```
 
 # 6. To-do
-- [x] Automatically generate alias files at `~/pages` by watching `~/services` in dev mode
-- [x] Refactoring remain JS files to TypeScript
+- [x] Refactoring JS files to TypeScript
 - [ ] I18n Support
 
 If you have a feature request, please create a new issue. And also, pull requests are always welcome🙏

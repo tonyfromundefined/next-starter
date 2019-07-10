@@ -86,7 +86,7 @@ functions:
 
 resources:
   Resources:
-    ClientAssetsBucket:
+    AssetsBucket:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.buckets.ASSETS_BUCKET_NAME}
@@ -109,11 +109,11 @@ resources:
                 - x-amz-request-id
                 - x-amz-id-2
 
-    ClientAssetsBucketPolicy:
+    AssetsBucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
         Bucket:
-          Ref: ClientAssetsBucket
+          Ref: AssetsBucket
         PolicyDocument:
           Version: '2012-10-17'
           Statement: [
@@ -121,7 +121,7 @@ resources:
               Action: ['s3:GetObject'],
               Effect: 'Allow',
               Resource: {
-                Fn::Join: ['', ['arn:aws:s3:::', { Ref: 'ClientAssetsBucket' }, '/*']],
+                Fn::Join: ['', ['arn:aws:s3:::', { Ref: 'AssetsBucket' }, '/*']],
               },
               Principal: '*'
             },

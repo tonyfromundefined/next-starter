@@ -1,42 +1,42 @@
-const fs = require('fs')
-const path = require('path')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const WebpackbarPlugin = require('webpackbar')
+const fs = require("fs");
+const path = require("path");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const WebpackbarPlugin = require("webpackbar");
 
-const files = fs.readdirSync(path.resolve(__dirname, './serverless'))
+const files = fs.readdirSync(path.resolve(__dirname, "./serverless"));
 
-const entry = {}
+const entry = {};
 
 for (const file of files) {
-  entry[file.split('.')[0]] = path.resolve(__dirname, './serverless', file)
+  entry[file.split(".")[0]] = path.resolve(__dirname, "./serverless", file);
 }
 
 module.exports = {
-  mode: 'production',
   entry,
-  output: {
-    path: path.resolve(__dirname, './dist/serverless/bundles'),
-    filename: `[name].js`,
-    libraryTarget: 'commonjs',
-  },
-  target: 'node',
-  optimization: {
-		minimize: false,
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js']
-  },
+  mode: "production",
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: 'ts-loader' },
+      { test: /\.tsx?$/, loader: "ts-loader" },
     ],
   },
-  stats: 'errors-only',
+  optimization: {
+    minimize: false,
+  },
+  output: {
+    filename: `[name].js`,
+    libraryTarget: "commonjs",
+    path: path.resolve(__dirname, "./dist/serverless/bundles"),
+  },
   plugins: [
     new WebpackbarPlugin({
-      name: 'Serverless (Production)',
-      color: '#fa5252',
+      color: "#fa5252",
+      name: "Serverless (Production)",
     }),
     new ForkTsCheckerWebpackPlugin(),
   ],
-}
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"],
+  },
+  stats: "errors-only",
+  target: "node",
+};
