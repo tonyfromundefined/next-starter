@@ -1,20 +1,18 @@
 const fs = require('fs')
 const path = require('path')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const WebpackbarPlugin = require('webpackbar')
 
-const isProd = process.env.NODE_ENV === 'production'
+const files = fs.readdirSync(path.resolve(__dirname, './serverless'))
 
-const filenames = fs.readdirSync(path.resolve(__dirname, './serverless'))
+const entry = {}
 
-const entries = []
-
-for (const filename of filenames) {
-  entries.push({
-    [filename.split('.')[0]]: path.resolve(__dirname, './serverless', filename),
-  })
+for (const file of files) {
+  entry[file.split('.')[0]] = path.resolve(__dirname, './serverless', file)
 }
 
-module.exports = entries.map((entry) => ({
-  mode: isProd ? 'production' : 'development',
+module.exports = {
+  mode: 'production',
   entry,
   output: {
     path: path.resolve(__dirname, './dist/serverless/bundles'),
@@ -34,4 +32,11 @@ module.exports = entries.map((entry) => ({
     ],
   },
   stats: 'errors-only',
-}))
+  plugins: [
+    new WebpackbarPlugin({
+      name: 'Serverless (Production)',
+      color: '#fa5252',
+    }),
+    new ForkTsCheckerWebpackPlugin(),
+  ],
+}
