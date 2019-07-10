@@ -5,8 +5,8 @@ import asyncify from 'express-asyncify'
 import session from 'express-session'
 import next from 'next'
 import path from 'path'
+import api from './api'
 import conf from './next.config'
-import api from './src/api'
 
 const dev = process.env.NODE_ENV !== 'production'
 const port = dev ? 3000 : 80
@@ -17,7 +17,7 @@ async function main() {
   const app = next({
     conf,
     dev,
-    dir: path.resolve(__dirname, './src'),
+    dir: path.resolve(__dirname, './'),
   })
 
   await app.prepare()

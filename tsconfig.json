@@ -24,14 +24,19 @@
     "strict": true,
     "strictNullChecks": true,
     "allowJs": true,
-    "resolveJsonModule":true,
-    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "baseUrl": "./src",
     "paths": {
-      "express-asyncify": ["./src/typings/express-asyncify"],
-      "open-color": ["./src/typings/open-color"],
-      "~~/*": ["./src/services/*"],
-      "~/*": ["./src/*"]
-    },
-    "outDir": "dist"
-  }
+      "~/*": ["./*"],
+      "~~/*": ["./services/*"],
+      "express-asyncify": ["./typings/express-asyncify"],
+      "open-color": ["./typings/open-color"]
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
